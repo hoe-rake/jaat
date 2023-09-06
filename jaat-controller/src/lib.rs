@@ -4,6 +4,7 @@ use dioxus::prelude::*;
 pub fn Controller(cx: Scope) -> Element {
     let mut count_a: &UseState<i32> = use_state(cx, || 0);
     let mut count_b: &UseState<i32> = use_state(cx, || 0);
+    let team_name = use_state(cx, || "".to_string());
 
     cx.render(rsx!(
         h1 { "Counter_a: {count_a}" }
@@ -12,8 +13,15 @@ pub fn Controller(cx: Scope) -> Element {
         h1 { "Counter_b: {count_b}" }
         button { onclick: move |_| count_b += 1, "b++" }
         button { onclick: move |_| count_b -= 1, "b--" }
+        input {
+            // we tell the component what to render
+            value: "{team_name}",
+            // and what to do when the value changes
+            oninput: move |evt| team_name.set(evt.value.clone()),
+        }
+        p { "{team_name}"}
     ))
-    // enter:チーム名
+
     // enter:先行後攻
     // enter:プレイヤー情報
     // display:7×2のボタン群
